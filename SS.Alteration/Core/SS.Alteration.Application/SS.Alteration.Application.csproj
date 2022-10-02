@@ -16,8 +16,4 @@
     <ProjectReference Include="..\SS.Alteration.Domain\SS.Alteration.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\Commands\AlterationForm\" />
-  </ItemGroup>
-
 </Project>
