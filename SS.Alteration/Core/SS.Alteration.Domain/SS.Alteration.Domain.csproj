@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Contracts\Commands\" />
+    <Folder Include="Contracts\Events\" />
+  </ItemGroup>
+
 </Project>
