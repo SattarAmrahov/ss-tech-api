@@ -12,26 +12,28 @@ namespace SS.Alteration.Persistence.Contexts
         }
 
         public DbSet<AlterationForm> AlterationForms { get; set; }
-        public DbSet<AlterationStatus> AlterationStatuses { get; set; }
+        public DbSet<OrderStatus> OrderStatuses { get; set; }
         public DbSet<Instruction> Instructions { get; set; }
+        public DbSet<Suit> Suits { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AlterationStatus>().HasData(
-                new AlterationStatus
+            modelBuilder.Entity<OrderStatus>().HasData(
+                new OrderStatus
                 {
                     Id = Guid.NewGuid(),
                     CreatedAt = DateTime.UtcNow,
                     Name = EAlterationStatus.Received.ToString()
                 },
-                new AlterationStatus
+                new OrderStatus
                 {
                     Id = Guid.NewGuid(),
                     CreatedAt = DateTime.UtcNow,
                     Name = EAlterationStatus.InProgress.ToString()
                 }, 
-                new AlterationStatus
+                new OrderStatus
                 {
                     Id = Guid.NewGuid(),
                     CreatedAt = DateTime.UtcNow,
@@ -48,7 +50,8 @@ namespace SS.Alteration.Persistence.Contexts
                 _ = item.State switch
                 {
                     EntityState.Added => item.Entity.CreatedAt = DateTime.UtcNow,
-                    EntityState.Modified => item.Entity.UpdatedAt = DateTime.UtcNow
+                    EntityState.Modified => item.Entity.UpdatedAt = DateTime.UtcNow,
+                    _ => DateTime.UtcNow
                 };
             }
 

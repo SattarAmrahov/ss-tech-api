@@ -28,10 +28,10 @@ namespace SS.Alteration.Persistence.Repositories
             return Delete(entity);
         }
 
-        public async Task<bool> InsertAsync(T entity)
+        public async Task<T> InsertAsync(T entity)
         {
             var entityEntry = await Table.AddAsync(entity);
-            return entityEntry.State == EntityState.Added;
+            return entity;
         }
 
         public bool Update(T entity)

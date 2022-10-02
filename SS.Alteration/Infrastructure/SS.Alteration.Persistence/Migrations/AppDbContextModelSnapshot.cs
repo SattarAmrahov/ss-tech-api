@@ -28,17 +28,8 @@ namespace SS.Alteration.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AlterationStatusId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsPaid")
-                        .HasColumnType("bit");
 
                     b.Property<Guid>("SuitId")
                         .HasColumnType("uniqueidentifier");
@@ -48,50 +39,9 @@ namespace SS.Alteration.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AlterationStatusId");
+                    b.HasIndex("SuitId");
 
                     b.ToTable("AlterationForms");
-                });
-
-            modelBuilder.Entity("SS.Alteration.Domain.Entities.AlterationStatus", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AlterationStatuses");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("fdcb36c8-b345-4984-a25e-616154ec3610"),
-                            CreatedAt = new DateTime(2022, 10, 2, 9, 26, 4, 626, DateTimeKind.Utc).AddTicks(2846),
-                            Name = "Received"
-                        },
-                        new
-                        {
-                            Id = new Guid("a155c0ae-f226-41e1-8282-d9012558e1ff"),
-                            CreatedAt = new DateTime(2022, 10, 2, 9, 26, 4, 626, DateTimeKind.Utc).AddTicks(2871),
-                            Name = "InProgress"
-                        },
-                        new
-                        {
-                            Id = new Guid("42f20caa-d8c0-4a50-9f8e-d89b81b3ad4f"),
-                            CreatedAt = new DateTime(2022, 10, 2, 9, 26, 4, 626, DateTimeKind.Utc).AddTicks(2873),
-                            Name = "Ready"
-                        });
                 });
 
             modelBuilder.Entity("SS.Alteration.Domain.Entities.Instruction", b =>
@@ -120,15 +70,110 @@ namespace SS.Alteration.Persistence.Migrations
                     b.ToTable("Instructions");
                 });
 
+            modelBuilder.Entity("SS.Alteration.Domain.Entities.Order", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AlterationFormId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("OrderStatusId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AlterationFormId");
+
+                    b.HasIndex("OrderStatusId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("SS.Alteration.Domain.Entities.OrderStatus", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OrderStatuses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("ffe9e797-5f48-4ee7-bf53-3b74f3cc64c7"),
+                            CreatedAt = new DateTime(2022, 10, 2, 12, 11, 27, 243, DateTimeKind.Utc).AddTicks(4347),
+                            Name = "Received"
+                        },
+                        new
+                        {
+                            Id = new Guid("961aefcd-b680-44ed-9f96-ba68201c3274"),
+                            CreatedAt = new DateTime(2022, 10, 2, 12, 11, 27, 243, DateTimeKind.Utc).AddTicks(4371),
+                            Name = "InProgress"
+                        },
+                        new
+                        {
+                            Id = new Guid("8a98b5b0-0710-49e4-bbb4-f38ff9506fb1"),
+                            CreatedAt = new DateTime(2022, 10, 2, 12, 11, 27, 243, DateTimeKind.Utc).AddTicks(4373),
+                            Name = "Ready"
+                        });
+                });
+
+            modelBuilder.Entity("SS.Alteration.Domain.Entities.Suit", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Suits");
+                });
+
             modelBuilder.Entity("SS.Alteration.Domain.Entities.AlterationForm", b =>
                 {
-                    b.HasOne("SS.Alteration.Domain.Entities.AlterationStatus", "AlterationStatus")
-                        .WithMany("AlterationForms")
-                        .HasForeignKey("AlterationStatusId")
+                    b.HasOne("SS.Alteration.Domain.Entities.Suit", "Suit")
+                        .WithMany()
+                        .HasForeignKey("SuitId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AlterationStatus");
+                    b.Navigation("Suit");
                 });
 
             modelBuilder.Entity("SS.Alteration.Domain.Entities.Instruction", b =>
@@ -142,14 +187,33 @@ namespace SS.Alteration.Persistence.Migrations
                     b.Navigation("AlterationForm");
                 });
 
+            modelBuilder.Entity("SS.Alteration.Domain.Entities.Order", b =>
+                {
+                    b.HasOne("SS.Alteration.Domain.Entities.AlterationForm", "AlterationForm")
+                        .WithMany()
+                        .HasForeignKey("AlterationFormId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SS.Alteration.Domain.Entities.OrderStatus", "OrderStatus")
+                        .WithMany("Orders")
+                        .HasForeignKey("OrderStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AlterationForm");
+
+                    b.Navigation("OrderStatus");
+                });
+
             modelBuilder.Entity("SS.Alteration.Domain.Entities.AlterationForm", b =>
                 {
                     b.Navigation("Instructions");
                 });
 
-            modelBuilder.Entity("SS.Alteration.Domain.Entities.AlterationStatus", b =>
+            modelBuilder.Entity("SS.Alteration.Domain.Entities.OrderStatus", b =>
                 {
-                    b.Navigation("AlterationForms");
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\SS.Alteration.Application\SS.Alteration.Application.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\SS.Alteration.Infrastructure\SS.Alteration.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Infrastructure\SS.Alteration.Persistence\SS.Alteration.Persistence.csproj" />
   </ItemGroup>
 
